@@ -1,28 +1,38 @@
-class StockSpanner {
-    private List<Integer> prices; 
-    private List<Integer> spans;
-    
-    public StockSpanner(){
-        prices = new ArrayList<>();
-        spans = new ArrayList<>();
-    }
-        
-
-    public int next(int price) {
-        int count = 1;
-        int i = prices.size()-1;
-        while(i>=0 && prices.get(i)<=price){
-            count += spans.get(i);
-            i -=spans.get(i);
-        }
-        prices.add(price);
-        spans.add(count);
-        return count;   
-    }
-}
-
 /**
- * Your StockSpanner object will be instantiated and called as such:
- * StockSpanner obj = new StockSpanner();
- * int param_1 = obj.next(price);
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
  */
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+ 
+    TreeNode p = root;
+    int result = 0;
+ 
+    while(!stack.isEmpty() || p!=null){
+        if(p!=null){
+            stack.push(p);
+            p = p.left;
+        }else{
+            TreeNode t = stack.pop();
+            k--;
+            if(k==0)
+                result = t.val;
+            p = t.right;
+        }
+    }
+ 
+    return result;
+}
+}
